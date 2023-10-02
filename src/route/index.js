@@ -183,6 +183,8 @@ router.post('/purchase-create', function (req, res) {
     })
   }
 
+  console.log(product, amount)
+
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('purchase-product', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
