@@ -13,9 +13,7 @@
         class='product-card_category product-card_category--{{id}}'
       >{{text}}</span>
     {{/each}}
-    <a
-      href='/purchase-product?id={{id}}'
-      class='product-card_button'
-    >Купити зараз: {{price}} грн</a>
+    <a href='/purchase-product?id={{id}}'>
+    {{>button text="Купити зараз" price=price}}</a>
   </div>
 {{/with}}
