@@ -87,29 +87,12 @@ Product.add(
   10,
 )
 
-// ================================================================
-
-// router.get Створює нам один ентпоїнт
-
-// ↙️ тут вводимо шлях (PATH) до сторінки
-router.get('/', function (req, res) {
-  // res.render генерує нам HTML сторінку
-
-  // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('alert', {
-    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'alert',
-
-    data: {
-      message: 'Операція успішна',
-      info: 'Товар створений',
-      link: '/test-path',
-    },
-  })
-  // ↑↑ сюди вводимо JSON дані
-})
+class Purchase {
+  static DELIVERY_PRICE = 150
+}
 
 // ================================================================
+
 // router.get Створює нам один ентпоїнт
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
@@ -184,6 +167,54 @@ router.post('/purchase-create', function (req, res) {
   }
 
   console.log(product, amount)
+
+  const productPrice = product.price * amount
+  const totalPrice = productPrice + Purchase.DELIVERY_PRICE
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-create', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-create',
+
+    data: {
+      id: product.id,
+
+      cart: [
+        {
+          text: `${product.title} (${amount} шт)`,
+          price: productPrice,
+        },
+        {
+          text: `Доставка`,
+          price: Purchase.DELIVERY_PRICE,
+        },
+      ],
+      totalPrice,
+      productPrice,
+      deliveryPrice: Purchase.DELIVERY_PRICE,
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+
+  //================================================================
+  // router.get Створює нам один ентпоїнт
+
+  // ↙️ тут вводимо шлях (PATH) до сторінки
+  router.post('/purchase-submit', function (req, res) {
+    console.log(req.query)
+    console.log(req.body)
+
+    res.render('alert', {
+      style: 'alert',
+
+      data: {
+        message: 'Успішно',
+        info: 'Замовлення створено',
+        link: '/purchase-list',
+      },
+    })
+    // ↑↑ сюди вводимо JSON дані
+  })
 
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('purchase-product', {
