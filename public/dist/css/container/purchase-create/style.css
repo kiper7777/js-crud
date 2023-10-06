@@ -33,12 +33,14 @@
 .field_input {
   border: 1px solid #ddd;
   padding: 8px;
+  border-radius: 10px;
 }
 
 .button {
+  background-color: blue;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
