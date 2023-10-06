@@ -85,6 +85,11 @@
   border-radius: 10px;
 }
 
+.field--disabled {
+  position: absolute;
+  display: none;
+}
+
 .product-info_divider {
   width: 100%;
   height: 1px;
