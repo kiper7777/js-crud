@@ -46,6 +46,11 @@ a {
 
     &_list {
         display: flex;
+        gap: s.space(7);
+    }
+
+    &_content {
+        display: flex;
         flex-direction: column;
         justify-content: center;
         gap: s.space(2);

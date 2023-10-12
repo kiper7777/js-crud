@@ -40,6 +40,10 @@ a:hover {
 }
 .track_list {
   display: flex;
+  gap: 28px;
+}
+.track_content {
+  display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 8px;
@@ -100,6 +104,11 @@ a:hover {
   background-color: #20d562;
   max-width: fit-content;
   font-size: 20px;
+  padding: 12px 40px;
+  border-radius: 50px;
+}
+.form_button:hover {
+  opacity: 0.6;
 }
 
 /*# sourceMappingURL=style.css.map */

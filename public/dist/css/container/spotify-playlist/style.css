@@ -40,6 +40,10 @@ a:hover {
 }
 .track_list {
   display: flex;
+  gap: 28px;
+}
+.track_content {
+  display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 8px;
