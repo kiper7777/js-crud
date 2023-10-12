@@ -14,13 +14,13 @@
       плейлист</h1>
     <form
       method='POST'
-      action='/spotify-create'
+      action="/spotify-create{{#if data.isMix}}?isMix=true{{/if}}"
       class='form'
     >
-      <input
+      <input required
         type='text'
         class='form_field'
-        placeholder='Назва'
+        placeholder='Назва' name="name"
       />
 
       <button class='form_button'>Створити</button>
