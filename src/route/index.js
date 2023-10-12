@@ -65,7 +65,7 @@ Track.create(
 
 console.log(Track.getList())
 
-class PlayList {
+class Playlist {
   //статичне приватне поле для зберігання списку об'єктів Playlist
   static #list = []
 
