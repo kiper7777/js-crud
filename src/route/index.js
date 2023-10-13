@@ -69,10 +69,11 @@ class Playlist {
   //статичне приватне поле для зберігання списку об'єктів Playlist
   static #list = []
 
-  constructor(name) {
+  constructor(name, image) {
     this.id = Math.floor(1000 + Math.random() * 9000) //генеруємо випадкове ID
     this.name = name
     this.track = []
+    this.image = image || '/img/my-playlist.jpg'
   }
 
   //статичний метод для створення об'єкту Playlist і додавання його до списку #list
@@ -110,7 +111,31 @@ class Playlist {
       (track) => track.id !== trackId,
     )
   }
+
+  static findListByValue(name) {
+    return this.#list.filter((playlist) =>
+      playlist.name
+        .toLowerCase()
+        .includes(name.toLowerCase()),
+    )
+  }
 }
+
+Playlist.makeMix(
+  Playlist.create('Favorites', '/img/favorites.jpg'),
+)
+
+Playlist.makeMix(Playlist.create('Mixed', '/img/mixed.jpg'))
+
+Playlist.makeMix(
+  Playlist.create('Random', '/img/random.jpg'),
+)
+
+Playlist.makeMix(
+  Playlist.create('My playlist', '/img/my-playlist.jpg'),
+)
+
+// ================================================
 
 // router.get Створює нам один ентпоїнт
 
