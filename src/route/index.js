@@ -72,8 +72,8 @@ class Playlist {
   constructor(name, image) {
     this.id = Math.floor(1000 + Math.random() * 9000) //генеруємо випадкове ID
     this.name = name
-    this.track = []
-    this.image = image || '/img/my-playlist.jpg'
+    this.tracks = []
+    this.image = 'https://picsum.photos/100/100'
   }
 
   //статичний метод для створення об'єкту Playlist і додавання його до списку #list
@@ -121,26 +121,30 @@ class Playlist {
   }
 }
 
-Playlist.makeMix(
-  Playlist.create('Favorites', '/img/favorites.jpg'),
-)
+Playlist.makeMix(Playlist.create('Test'))
+Playlist.makeMix(Playlist.create('Test2'))
+Playlist.makeMix(Playlist.create('Test3'))
 
-Playlist.makeMix(Playlist.create('Mixed', '/img/mixed.jpg'))
+// Playlist.makeMix(
+//   Playlist.create('Favorites', '/img/favorites.jpg'),
+// )
 
-Playlist.makeMix(
-  Playlist.create('Random', '/img/random.jpg'),
-)
+// Playlist.makeMix(Playlist.create('Mixed', '/img/mixed.jpg'))
 
-Playlist.makeMix(
-  Playlist.create('My playlist', '/img/my-playlist.jpg'),
-)
+// Playlist.makeMix(
+//   Playlist.create('Random', '/img/random.jpg'),
+// )
+
+// Playlist.makeMix(
+//   Playlist.create('My playlist', '/img/my-playlist.jpg'),
+// )
 
 // ================================================
 
 // router.get Створює нам один ентпоїнт
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
-router.get('/', function (req, res) {
+router.get('/spotify-choose', function (req, res) {
   // res.render генерує нам HTML сторінку
 
   // ↙️ cюди вводимо назву файлу з сontainer
@@ -275,7 +279,53 @@ router.get('/spotify-track-delete', function (req, res) {
   })
 })
 
-// ================================================================
-
 // Підключаємо роутер до бек-енду
 module.exports = router
+
+// ================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/spotify-search', function (req, res) {
+  const value = ''
+
+  const list = Playlist.findListByValue(value)
+  // res.render генерує нам HTML сторінку
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('spotify-search', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'spotify-search',
+
+    data: {
+      list: list.map(({ tracks, ...rest }) => ({
+        ...rest,
+        amount: tracks.length,
+      })),
+      value,
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+router.post('/spotify-search', function (req, res) {
+  const value = req.body.value || ''
+
+  const list = Playlist.findListByValue(value)
+
+  console.log(value)
+
+  res.render('spotify-search', {
+    style: 'spotify-search',
+
+    data: {
+      list: list.map(({ tracks, ...rest }) => ({
+        ...rest,
+        amount: tracks.length,
+      })),
+      value,
+    },
+  })
+})
+// ================================================================

@@ -52,6 +52,35 @@ a:hover {
   font-size: 24px;
   color: #ddd;
 }
+.track_author {
+  font-size: 16px;
+  color: #BDBDBD;
+}
+
+.playlist {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 28px;
+  align-items: center;
+}
+.playlist_list {
+  display: grid;
+  gap: 28px;
+}
+.playlist_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+.playlist_name {
+  font-size: 24px;
+  color: #ddd;
+}
+.playlist_amount {
+  font-size: 16px;
+  color: #BDBDBD;
+}
 
 .title-small {
   font-size: 16px;
@@ -92,7 +121,7 @@ a:hover {
   color: #ddd;
   text-align: center;
   padding: 16px;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid #ced4da;
   transition: opacity 0.6s;
 }
 .form_field:hover {
