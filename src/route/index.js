@@ -73,7 +73,7 @@ class Playlist {
     this.id = Math.floor(1000 + Math.random() * 9000) //генеруємо випадкове ID
     this.name = name
     this.tracks = []
-    this.image = 'https://picsum.photos/100/100'
+    this.image = image || 'https://picsum.photos/100/100'
   }
 
   //статичний метод для створення об'єкту Playlist і додавання його до списку #list
@@ -139,6 +139,23 @@ Playlist.makeMix(Playlist.create('Test3'))
 //   Playlist.create('My playlist', '/img/my-playlist.jpg'),
 // )
 
+// ================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/', function (req, res) {
+  // res.render генерує нам HTML сторінку
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('spotify-choose', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'spotify-choose',
+
+    data: {},
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
 // ================================================
 
 // router.get Створює нам один ентпоїнт
@@ -279,9 +296,78 @@ router.get('/spotify-track-delete', function (req, res) {
   })
 })
 
-// Підключаємо роутер до бек-енду
-module.exports = router
+// ================================================
 
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/spotify-track-add', function (req, res) {
+  // res.render генерує нам HTML сторінку
+  const playlistId = Number(req.query.playlistId)
+  const playlist = Playlist.getById(playlistId)
+  const allTracks = Track.getList()
+
+  console.log(playlistId, playlist, allTracks)
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('spotify-track-add', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'spotify-track-add',
+
+    data: {
+      playlistId: playlist.id,
+      tracks: allTracks,
+      // link: `/spotify-track-add?playlistId={playlistId}}&trackId=={id}}`,
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
+// Шлях POST для додавання треку до плейліста
+router.post('/spotify-track-add', function (req, res) {
+  const playlistId = Number(req.body.playlistId)
+  const trackId = Number(req.body.trackId)
+
+  const playlist = Playlist.getById(playlistId)
+
+  if (!playlist) {
+    return res.render('alert', {
+      style: 'alert',
+      data: {
+        message: 'Помилка',
+        info: 'Такого плейліста не знайдено',
+        link: `/spotify-playlist?id=${playlistId}`,
+      },
+    })
+  }
+
+  const trackToAdd = Track.getList().find(
+    (track) => track.id === trackId,
+  )
+
+  if (!trackToAdd) {
+    return res.render('alert', {
+      style: 'alert',
+      data: {
+        message: 'Помилка',
+        info: 'Такого треку не знайдено',
+        link: `/spotify-track-add?playlistId=${playlistId}`,
+      },
+    })
+  }
+
+  playlist.tracks.push(trackToAdd)
+
+  res.render('spotify-playlist', {
+    style: 'spotify-playlist',
+    data: {
+      playlistId: playlist.id,
+      tracks: playlist.tracks,
+      name: playlist.name,
+    },
+  })
+})
 // ================================================
 
 // router.get Створює нам один ентпоїнт
@@ -328,4 +414,8 @@ router.post('/spotify-search', function (req, res) {
     },
   })
 })
+
 // ================================================================
+
+// Підключаємо роутер до бек-енду
+module.exports = router

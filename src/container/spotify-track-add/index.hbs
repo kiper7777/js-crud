@@ -6,7 +6,7 @@
 {{!-- <main class='main'>
   {{#with data}}
     <div class='main_content'>
-      <h1 class='title title-center'>Мій плейлист #2</h1>
+      <h1 class='title title-center'>Додати до плейлиста</h1>
 
       <a href='/spotify-playlist-add?playlistId=={{playlistId}}' class='add-button'>
         <img src='/svg/add_button.svg' />
@@ -16,7 +16,7 @@
       <ul class='track_list'>
         {{#each tracks}}
           <li class='track'>
-            <img src='{{image}}' alt="{{name}}"/>
+            <img src='{{image}}' alt='{{name}}' />
             <div class='track_content'>
               <strong class='track_name'>{{name}}</strong>
               <em class='track_author'>{{author}}</em>
@@ -27,7 +27,7 @@
           </li>
         {{/each}}
       </ul>
-      
+
     </div>
   {{/with}}
 </main> --}}
@@ -35,35 +35,31 @@
 <main class='main'>
   <section class='main_content playlist'>
     {{#with data}}
-      <h1 class='title'>{{name}}</h1>
+      <h1 class='title'>Додати до плейлиста</h1>
 
       <ul class='track-list'>
-        <a
-          href='/spotify-track-add?playlistId={{playlistId}}'
-          class='add-button'
-        >
-          <img
-            src='/svg/tabler_plus.svg'
-            alt=''
-            class='icon'
-          />
-          <div class='text'>Додати до плейлиста</div>
-        </a>
-
         {{#each tracks}}
-        <li class="track">
-          <img src="{{image}}" class="track_image">
-          <div class="track_content">
-            <strong class="track_title">{{name}}</strong>
-            <p class="track_text">{{author}}</p>
-          </div>
-          <a href="/spotify-track-delete?playlistId={{../playlistId}}&trackId={{id}}" class="track_icon">
-            <img src="/svg/radix-icons.svg" class="">
-          </a>
-        </li>
-        {{/each}}
+          <li class='track'>
+            <img src='{{image}}' class='track_image' />
+            <div class='track_content'>
+              <strong class='track_title'>{{name}}</strong>
+              <p class='track_text'>{{author}}</p>
+            </div>
+            {{!-- <a href="/spotify-track-add?playlistId={{../playlistId}}&trackId={{id}}">
+            <img src="/svg/tabler_plus.svg" class="track_icon">
+            </a> --}}
 
+            <form>
+              <input type="hidden" name="playlistId" value="{{../playlistId}}">
+              <input type="hidden" name="tarckId" value="{{id}}">
+              <button type="submit">
+                <img src="/svg/tabler_plus.svg" class="track_icon">
+              </button>
+            </form>
+          </li>
+        {{/each}}
       </ul>
+
     {{/with}}
   </section>
 </main>
