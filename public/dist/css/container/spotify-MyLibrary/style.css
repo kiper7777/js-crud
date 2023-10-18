@@ -83,7 +83,6 @@ a:hover {
 }
 
 .main_content {
-  display: inline;
   width: 1920px;
   flex-direction: column;
   align-items: flex-start;
@@ -94,7 +93,7 @@ a:hover {
   display: flex;
   align-items: center;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-self: stretch;
 }
 
@@ -122,6 +121,12 @@ a:hover {
   gap: 54px 30px;
   align-self: stretch;
   flex-wrap: wrap;
+}
+
+.library_content {
+  display: flex;
+  flex-direction: row;
+  display: flex;
 }
 
 /*# sourceMappingURL=style.css.map */

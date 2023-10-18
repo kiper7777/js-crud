@@ -3,7 +3,7 @@
 @use '../../lib/spotify.scss' as spotify;
 
 .main_content {
-    display: inline;
+    // display: inline;
     width: 1920px;
     
     flex-direction: column;
@@ -12,10 +12,11 @@
 }
 
 .header {
+    // max-width: 100%;
     display: flex;
     align-items: center;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-self: stretch;
 }
 
@@ -45,6 +46,22 @@
     gap: 54px 30px;
     align-self: stretch;
     flex-wrap: wrap;
+}
+
+// .cards {
+//     display: flex;
+//     width: 100px;
+//     height: 100px;
+//     padding: 20px;
+//     justify-content: center;
+//     align-items: center;
+// }
+
+.library_content {
+    display: flex;
+    flex-direction: row;
+
+    display: flex;
 }
 
 

@@ -26,6 +26,39 @@
         </div>
       </header>
 
+      <form class='library_content'>
+        <body class='my-library'>
+          <a href='/spotify-search'>
+            <img
+              src='/svg/favorite.svg'
+              alt='favorite'
+              class='card'
+            />
+          </a>
+          <a href='/spotify-create?isMix=true'>
+            <img
+              src='/svg/mix.svg'
+              alt='mix'
+              class='card'
+            />
+          </a>
+          <a href='/'>
+            <img
+              src='/svg/track.svg'
+              alt='track'
+              class='card'
+            />
+          </a>
+          <a href='/spotify-choose'>
+            <img
+              src='/svg/my_playlist.svg'
+              alt='track'
+              class='card'
+            />
+          </a>
+        </body>
+      </form>
+
       <ul class='playlist_list'>
         {{#each list}}
           <a
@@ -46,6 +79,7 @@
       </ul>
     </section>
   {{/with}}
+
 </main>
 
 {{! 
