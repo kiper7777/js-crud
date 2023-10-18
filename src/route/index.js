@@ -415,7 +415,53 @@ router.post('/spotify-search', function (req, res) {
   })
 })
 
-// ================================================================
+// ================================================
 
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/spotify-MyLibrary', function (req, res) {
+  // res.render генерує нам HTML сторінку
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('spotify-MyLibrary', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'spotify-MyLibrary',
+
+    data: {},
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/', function (req, res) {
+  allTracks = Track.getList()
+  console.log(allTracks)
+
+  const allPlaylists = Playlist.getList()
+  console.log(allPlaylists)
+
+  // res.render генерує нам HTML сторінку
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('index', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'index',
+
+    data: {
+      list: allPlaylists.map(({ tracks, ...rest }) => ({
+        ...rest,
+        amount: tracks.length,
+      })),
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
 // Підключаємо роутер до бек-енду
 module.exports = router
