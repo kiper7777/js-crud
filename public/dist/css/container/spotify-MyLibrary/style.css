@@ -124,7 +124,7 @@ a:hover {
 }
 
 .library_content {
-  display: flex;
+  display: grid;
   flex-direction: row;
   display: flex;
 }
