@@ -1,0 +1,88 @@
+{{! 
+Це код container файлу для index сторінки, 
+в якому міститься код, котрий буде віддаватися по шляху (PATH) - "/"
+ }}
+
+<main class='main'>
+  {{#with data}}
+    <section class='main_content'>
+      <header class='header'>
+        <h1 class='header_title'>Моя бібліотека</h1>
+        <div class='header_icons'>
+          <a href='/spotify-search' class='header_icon'>
+            <img
+              src='/svg/search.svg'
+              alt='search'
+              class='icon'
+            />
+          </a>
+          <a href='/spotify-choose' class='header_icon'>
+            <img
+              src='/svg/icon-add.svg'
+              alt='add'
+              class='icon'
+            />
+          </a>
+        </div>
+      </header>
+
+      <form class='library_content'>
+        <body class='my-library'>
+          <a href='/spotify-search'>
+            <img
+              src='/svg/favorite.svg'
+              alt='favorite'
+              class='card'
+            />
+          </a>
+          <a href='/spotify-create?isMix=true'>
+            <img
+              src='/svg/mix.svg'
+              alt='mix'
+              class='card'
+            />
+          </a>
+          <a href='/'>
+            <img
+              src='/svg/track.svg'
+              alt='track'
+              class='card'
+            />
+          </a>
+          <a href='/spotify-choose'>
+            <img
+              src='/svg/my_playlist.svg'
+              alt='track'
+              class='card'
+            />
+          </a>
+        </body>
+      </form>
+
+      <ul class='playlist_list'>
+        {{#each list}}
+          <a
+            href='/spotify-track-add?playlistId={{id}}'
+            class='playlist_item'
+          >
+            <li class='playlist_content'>
+              <img
+                src='{{image}}'
+                alt=''
+                class='playlist_image'
+              />
+              <strong class='title'>{{name}}</strong>
+              <p class='text'>{{amount}} пісень</p>
+            </li>
+          </a>
+        {{/each}}
+      </ul>
+    </section>
+  {{/with}}
+
+</main>
+
+{{! 
+    Цей код містить лише те, що буде виводитись в <body>
+    Адже наш layout/default.hbs має вже структуру HTML
+}}

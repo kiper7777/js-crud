@@ -1,0 +1,132 @@
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.6s;
+}
+a:hover {
+  opacity: 0.6;
+}
+
+.main {
+  background-color: #121212;
+  height: 100%;
+  color: #ddd;
+  display: flex;
+  justify-content: center;
+  padding: 24px 8px;
+}
+
+.main_content {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.title {
+  font-size: 24px;
+}
+
+.title-center {
+  text-align: center;
+}
+
+.track {
+  display: grid;
+  grid-template-columns: 92px 1fr 42px;
+  gap: 28px;
+  align-items: center;
+}
+.track_list {
+  display: flex;
+  gap: 28px;
+}
+.track_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+.track_name {
+  font-size: 24px;
+  color: #ddd;
+}
+.track_author {
+  font-size: 16px;
+  color: #BDBDBD;
+}
+
+.playlist {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 28px;
+  align-items: center;
+}
+.playlist_list {
+  display: grid;
+  gap: 28px;
+}
+.playlist_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+.playlist_name {
+  font-size: 24px;
+  color: #ddd;
+}
+.playlist_amount {
+  font-size: 16px;
+  color: #BDBDBD;
+}
+
+.main_content {
+  width: 1920px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 60px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  align-self: stretch;
+}
+
+.header_title {
+  color: #FFFEFE;
+  font-feature-settings: "clig" off, "liga" off;
+  font-size: 38px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 40px */
+}
+
+.header_icons {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  width: 48px;
+  height: 48px;
+}
+
+.playlist_list {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 54px 30px;
+  align-self: stretch;
+  flex-wrap: wrap;
+}
+
+.library_content {
+  display: grid;
+  flex-direction: row;
+  display: flex;
+}
+
+/*# sourceMappingURL=style.css.map */
