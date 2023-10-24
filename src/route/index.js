@@ -136,7 +136,12 @@ router.get('/product-create', function (req, res) {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'product-create',
 
-    data: {},
+    data: {
+      products: {
+        list,
+        isEmpty: list.length === 0,
+      },
+    },
   })
   // ↑↑ сюди вводимо JSON дані
 })
@@ -158,12 +163,41 @@ router.post('/product-create', function (req, res) {
   console.log(Product.getList())
 
   // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('product-alert', {
+  res.render('alert', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'product-alert',
+    style: 'alert',
     info: 'Товар успішно додано',
   })
   // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
+
+router.get('/product-delete', function (req, res) {
+  const { id } = req.query
+
+  Product.deleteById(Number(id))
+
+  res.render('alert', {
+    style: 'alert',
+    info: 'Товар успішно був видалений',
+  })
+})
+
+// ================================================================
+
+router.post('/product-list', function (req, res) {
+  const list = Product.getList()
+
+  res.render('product-list', {
+    style: 'product-list',
+    data: {
+      products: {
+        list,
+        isEmpty: list.length === 0,
+      },
+    },
+  })
 })
 
 // ================================================================

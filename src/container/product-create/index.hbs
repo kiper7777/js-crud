@@ -23,23 +23,23 @@
 
             <div class='form_field'>
               <label
-                for='login'
+                for='price'
                 class='form_label'
               >Ціна</label>
               <input
-                type='login'
-                name='login'
+                type='price'
+                name='price'
                 class='form_input'
               />
             </div>
             <div class='form_field'>
               <label
-                for='password'
+                for='description'
                 class='form_label'
               >Короткий опис товару</label>
               <input
-                type='password'
-                name='password'
+                type='description'
+                name='description'
                 class='form_input'
               />
             </div>
@@ -53,21 +53,21 @@
 
   <section>
     <div class='form'>
-      <h1 class='form_title'>Список користувачів</h1>
-      <div class='user-list'>
-        {{#with data.users}}
+      <h1 class='form_title'>Список товарів</h1>
+      <div class='product-list'>
+        {{#with data.products}}
           {{#if isEmpty}}
-            <mark>Список користувачів пустий</mark>
+            <mark>Список товарів пустий</mark>
           {{else}}
             <ul>
               {{#each list}}
-                <li>{{email}}
+                <li>{{name}}
                   |
-                  {{login}}
+                  {{price}}
                   |
-                  {{id}}
+                  {{description}}
                   <a
-                    href='/user-delete?id={{id}}'
+                    href='/product-delete?id={{id}}'
                   >(видалити)</a></li>
               {{/each}}
             </ul>

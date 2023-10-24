@@ -1,0 +1,67 @@
+@use '../../lib/service.scss' as s;
+
+.card {
+    width: 225px;
+    min-height: 350px;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Размещаем элементы в колонку */
+    border-radius: 4px;
+    transition: 0.2s;
+    position: relative;
+}
+
+// .form {
+//     display: flex;
+//     flex-direction: column;
+//     padding: s.space(4);
+//     gap: s.space(8);
+
+//     &_title {
+//         font-size: 20px;
+//         font-weight: bold;
+//         padding-bottom: s.space(1);
+//         margin-bottom: s.space(2);
+//         border-bottom: 1px solid s.color('light');
+//     }
+
+//     &_content {
+//         display: grid;
+//         gap: s.space(6);
+//     }
+
+//     &_field {
+//         display: flex;
+//         flex-direction: column;
+//         gap: s.space(2);
+//     }
+
+//     &_label {
+//         font-size: 14px;
+//     }
+
+//     &_input {
+//         border: 1px solid s.color('light');
+//         padding: s.space(2);
+//     }
+
+//     &_button {
+//         border: 1px solid s.color('light');
+//         padding: s.space(2);
+//         border-radius: 20px;
+//     }
+// }
+
+// main {
+//     display: flex;
+//     flex-direction: column;
+//     gap: s.space(10);
+// }
+
+// .user-list {
+//     li {
+//         padding-right: 15px;
+//         padding-top: 5px;
+//         padding-bottom: 5px;
+//     }
+// }
