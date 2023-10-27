@@ -60,16 +60,18 @@ class User {
 class Product {
   static #list = []
 
-  constructor(id, createDate, name, price, description) {
-    this.id = id
-    this.createDate = createDate
+  constructor(name, price, description) {
     this.name = name
     this.price = price
     this.description = description
+    this.id = Math.floor(Math.random() * 100000)
+    this.createDate = () => {
+      this.date = new Date().toISOString()
+    }
   }
-  id = Math.random()
 
   static getList = () => this.#list
+  checkId = (id) => this.id === id
 
   static add = (product) => {
     this.#list.push(product)
@@ -77,36 +79,6 @@ class Product {
 
   static getById = (id) =>
     this.#list.find((product) => product.id === id)
-
-  static updateById = (id, data) => {
-    const product = this.getById(id)
-
-    if (product) {
-      this.update(product, data)
-
-      return true
-    } else {
-      return false
-    }
-  }
-
-  static update = (product, { price }) => {
-    if (price) {
-      product.price = price
-    }
-  }
-
-  static update = (product, { name }) => {
-    if (name) {
-      product.name = name
-    }
-  }
-
-  static update = (product, { description }) => {
-    if (description) {
-      product.description = description
-    }
-  }
 
   static deleteById = (id) => {
     const index = this.#list.findIndex(
@@ -119,6 +91,46 @@ class Product {
       return false
     }
   }
+
+  static updateById = (id, data) => {
+    const product = this.getById(id)
+    const { name } = data
+    if (product) {
+      if (name) {
+        product.name = name
+      }
+      return true
+    } else {
+      return false
+    }
+  }
+
+  static update = (name, { product }) => {
+    if (name) {
+      product.name = name
+    }
+  }
+
+  //   if (product) {
+  //     this.update(product, data)
+
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  // }
+
+  // static update = (product, { price }) => {
+  //   if (price) {
+  //     product.price = price
+  //   }
+  // }
+
+  // static update = (product, { description }) => {
+  //   if (description) {
+  //     product.description = description
+  //   }
+  // }
 }
 
 // ================================================================
@@ -136,12 +148,12 @@ router.get('/product-create', function (req, res) {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'product-create',
 
-    data: {
-      products: {
-        list,
-        isEmpty: list.length === 0,
-      },
-    },
+    // data: {
+    //   products: {
+    //     list,
+    //     isEmpty: list.length === 0,
+    //   },
+    // },
   })
   // ↑↑ сюди вводимо JSON дані
 })
@@ -163,9 +175,9 @@ router.post('/product-create', function (req, res) {
   console.log(Product.getList())
 
   // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('alert', {
+  res.render('product-alert', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'alert',
+    style: 'product-alert',
     info: 'Товар успішно додано',
   })
   // ↑↑ сюди вводимо JSON дані
@@ -186,8 +198,9 @@ router.get('/product-delete', function (req, res) {
 
 // ================================================================
 
-router.post('/product-list', function (req, res) {
+router.get('/product-list', function (req, res) {
   const list = Product.getList()
+  console.log(list)
 
   res.render('product-list', {
     style: 'product-list',
