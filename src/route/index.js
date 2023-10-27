@@ -94,10 +94,17 @@ class Product {
 
   static updateById = (id, data) => {
     const product = this.getById(id)
-    const { name } = data
+    const { name, price, description } = data
+
     if (product) {
       if (name) {
         product.name = name
+      }
+      if (price) {
+        product.price = price
+      }
+      if (description) {
+        product.description = description
       }
       return true
     } else {
@@ -110,27 +117,6 @@ class Product {
       product.name = name
     }
   }
-
-  //   if (product) {
-  //     this.update(product, data)
-
-  //     return true
-  //   } else {
-  //     return false
-  //   }
-  // }
-
-  // static update = (product, { price }) => {
-  //   if (price) {
-  //     product.price = price
-  //   }
-  // }
-
-  // static update = (product, { description }) => {
-  //   if (description) {
-  //     product.description = description
-  //   }
-  // }
 }
 
 // ================================================================
@@ -190,8 +176,8 @@ router.get('/product-delete', function (req, res) {
 
   Product.deleteById(Number(id))
 
-  res.render('alert', {
-    style: 'alert',
+  res.render('product-alert', {
+    style: 'product-alert',
     info: 'Товар успішно був видалений',
   })
 })
@@ -211,6 +197,55 @@ router.get('/product-list', function (req, res) {
       },
     },
   })
+})
+
+// ================================================================
+
+router.get('/product-edit', function (req, res) {
+  const { id } = req.query
+
+  const product = Product.getById(Number(id))
+  // console.log(product)
+  if (product) {
+    return res.render('product-edit', {
+      style: 'product-edit',
+      data: {
+        name: product.name,
+        price: product.price,
+        id: product.id,
+        description: product.description,
+      },
+    })
+  } else {
+    return res.render('product-alert', {
+      style: 'product-alert',
+      info: 'Продукту за таким ID не знайдено',
+    })
+  }
+})
+
+// ================================================================
+
+router.post('/product-edit', function (req, res) {
+  const { id, name, price, description } = req.body
+  const product = Product.updateById(Number(id), {
+    name,
+    price,
+    description,
+  })
+  console.log(id)
+  console.log(product)
+  if (product) {
+    res.render('product-alert', {
+      style: 'product-alert',
+      info: 'Інформація про товар оновлена',
+    })
+  } else {
+    res.render('product-alert', {
+      style: 'product-alert',
+      info: 'Сталася помилка',
+    })
+  }
 })
 
 // ================================================================
