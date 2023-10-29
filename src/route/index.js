@@ -92,7 +92,7 @@ class Product {
     }
   }
 
-  static updateById = (id, data) => {
+  static editById = (id, data) => {
     const product = this.getById(id)
     const { name, price, description } = data
 
@@ -112,7 +112,7 @@ class Product {
     }
   }
 
-  static update = (name, { product }) => {
+  static edit = (name, { product }) => {
     if (name) {
       product.name = name
     }
@@ -171,19 +171,6 @@ router.post('/product-create', function (req, res) {
 
 // ================================================================
 
-router.get('/product-delete', function (req, res) {
-  const { id } = req.query
-
-  Product.deleteById(Number(id))
-
-  res.render('product-alert', {
-    style: 'product-alert',
-    info: 'Товар успішно був видалений',
-  })
-})
-
-// ================================================================
-
 router.get('/product-list', function (req, res) {
   const list = Product.getList()
   console.log(list)
@@ -205,7 +192,7 @@ router.get('/product-edit', function (req, res) {
   const { id } = req.query
 
   const product = Product.getById(Number(id))
-  // console.log(product)
+  console.log(product)
   if (product) {
     return res.render('product-edit', {
       style: 'product-edit',
@@ -228,7 +215,7 @@ router.get('/product-edit', function (req, res) {
 
 router.post('/product-edit', function (req, res) {
   const { id, name, price, description } = req.body
-  const product = Product.updateById(Number(id), {
+  const product = Product.editById(Number(id), {
     name,
     price,
     description,
@@ -246,6 +233,19 @@ router.post('/product-edit', function (req, res) {
       info: 'Сталася помилка',
     })
   }
+})
+
+// ================================================================
+
+router.get('/product-delete', function (req, res) {
+  const { id } = req.query
+
+  Product.deleteById(Number(id))
+
+  res.render('product-alert', {
+    style: 'product-alert',
+    info: 'Товар успішно видалено',
+  })
 })
 
 // ================================================================

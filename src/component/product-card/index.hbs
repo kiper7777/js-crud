@@ -1,35 +1,66 @@
+{{! 
+Це код container файлу для index сторінки, 
+в якому міститься код, котрий буде віддаватися по шляху (PATH) - "/"
+ }}
+
+{{! <div>
+  <div>
+    <h1 class='card_title'>Список товарів</h1>
+  </div>
+</div> }}
+
 {{!-- <div class='card'>
   <div class='card_content'>
-    <label class='card_name'>{{name}}</label>
-    <p class='card_description'>{{description}}</p>
+    <label>{{name}}</label>
+    <p>{{description}}</p>
+    <div>ID: {{id}}</div>
+    <div>{{price}}</div>
+  </div>
+</div> --}}
+
+{{!-- <div class='card' style='width: 18rem;'>
+  <div class='card-body'>
+    <h5 class='card-title'>{{name}}
+    </h5>
+    <p class='card-text'>{{description}}
+    </p>
     <div class='card_id'>ID: {{id}}</div>
-    <div class='card_price'>{{price}}</div>
+    <div class='card-link'>{{price}} ₴</div>
+    <a href='#' class='card-link'>Редагувати</a>
+  </div>
+</div> --}}
+
+{{!-- <!-- Карточка товара -->
+<div class='card'>
+  <!-- Верхняя часть -->
+  <div class='card__top'>
+    <!-- Изображение-ссылка товара -->
+    <a href='#' class='card__image'>
+      <img
+        src='./image/iphone-14-pro-max-gold.png'
+        alt='Apple IPhone 14 PRO Max Gold'
+      />
+    </a>
+    <!-- Скидка на товар -->
+    <div class='card__label'>-10%</div>
+  </div>
+  <!-- Нижняя часть -->
+  <div class='card__bottom'>
+    <!-- Цены на товар (с учетом скидки и без)-->
+    <div class='card__prices'>
+      <div class='card__price card__price--discount'>135 000</div>
+      <div class='card__price card__price--common'>150 000</div>
+    </div>
+    <!-- Ссылка-название товара -->
+    <a href='#' class='card__title'>
+      Смартфон Apple IPhone 14 Pro Max 256Gb, золотой
+    </a>
+    <!-- Кнопка добавить в корзину -->
+    <button class='card__add'>В корзину</button>
   </div>
 </div>
 
-<section>
-  <div class='form'>
-    <h1 class='form_title'>Список товарів</h1>
-    <div class='product-list'>
-      {{#with data.products}}
-        {{#if isEmpty}}
-          <mark>Список товарів пустий</mark>
-        {{else}}
-          <ul>
-            {{#each list}}
-              <li>{{name}}
-                |
-                {{price}}
-                |
-                {{description}}
-                <a
-                  href='/product-delete?id={{id}}'
-                >(видалити)</a>
-              </li>
-            {{/each}}
-          </ul>
-        {{/if}}
-      {{/with}}
-    </div>
-  </div>
-</section> --}}
+{{! 
+    Цей код містить лише те, що буде виводитись в <body>
+    Адже наш layout/default.hbs має вже структуру HTML
+}} --}}
