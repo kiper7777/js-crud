@@ -113,7 +113,7 @@ class Purchase {
 
     const currentBalance = Purchase.getBonusBalance(email)
 
-    const updateBonusBalance =
+    const updatedBalance =
       currentBalance + amount - bonusUse
 
     Purchase.#bonusAccount.set(email, updatedBalance)
@@ -131,6 +131,7 @@ class Purchase {
 
     this.phone = data.phone
     this.email = data.email
+    this.delivery = data.delivery
 
     this.comment = data.comment || null
 
@@ -141,8 +142,8 @@ class Purchase {
     this.totalPrice = data.totalPrice
     this.productPrice = data.productPrice
     this.deliveryPrice = data.deliveryPrice
-    this.amount = data.amount
 
+    this.amount = data.amount
     this.product = product
   }
 
@@ -151,27 +152,35 @@ class Purchase {
 
     this.#list.push(newPurchase)
 
+    // Оновлення об'єкту product після успішної покупки
+    newPurchase.product.amount -= newPurchase.amount
+
     return newPurchase
   }
 
   static getList = () => {
-    return Purchase.#list.reverse()
+    return Purchase.#list.reverse().map((purchase) => ({
+      id: purchase.id,
+      product: purchase.product.title,
+      totalPrice: purchase.totalPrice,
+      bonus: Purchase.calcBonusAmount(purchase.totalPrice),
+    }))
   }
 
   static getById = (id) => {
-    return Purchase.#list.find((item) => item.id === id)
+    return this.#list.find((item) => item.id === id)
   }
 
   static updateById = (id, data) => {
-    const purchase = Purchase.#list.find(
-      (item) => item.id === id,
-    )
+    const purchase = Purchase.getById(id)
+
     if (purchase) {
       if (data.firstname)
         purchase.firstname = data.firstname
       if (data.lastname) purchase.lastname = data.lastname
       if (data.phone) purchase.phone = data.phone
       if (data.email) purchase.email = data.email
+      if (data.delivery) purchase.delivery = data.delivery
 
       return true
     } else {
@@ -262,7 +271,7 @@ router.post('/purchase-create', function (req, res) {
     return res.render('alert', {
       style: 'alert',
       data: {
-        message: 'Помилка',
+        title: 'Помилка',
         info: 'Некоректна кількість товару',
         link: `/purchase-product?id=${id}`,
       },
@@ -275,7 +284,7 @@ router.post('/purchase-create', function (req, res) {
     return res.render('alert', {
       style: 'alert',
       data: {
-        message: 'Помилка',
+        title: 'Помилка',
         info: 'Такої кількості товару нема в наявності',
         link: `/purchase-product?id=${id}`,
       },
@@ -336,7 +345,7 @@ router.post('/purchase-submit', function (req, res) {
     email,
     phone,
     comment,
-    // delivery,
+    delivery,
 
     promocode,
     bonus,
@@ -347,10 +356,10 @@ router.post('/purchase-submit', function (req, res) {
   if (!product) {
     return res.render('alert', {
       style: 'alert',
-      // component: ['button', 'heading'],
+      component: ['button', 'heading'],
 
       data: {
-        message: 'Помилка',
+        title: 'Помилка',
         info: 'Товар не знайдено',
         link: '/purchase-list',
       },
@@ -363,7 +372,7 @@ router.post('/purchase-submit', function (req, res) {
       component: ['button', 'heading'],
 
       data: {
-        message: 'Помилка',
+        title: 'Помилка',
         info: 'Товару немає в потрібній кількості',
         link: '/purchase-list',
       },
@@ -385,23 +394,23 @@ router.post('/purchase-submit', function (req, res) {
   ) {
     return res.render('alert', {
       style: 'alert',
-      // component: ['button', 'heading'],
+      component: ['button', 'heading'],
 
       data: {
-        message: 'Помилка',
+        title: 'Помилка',
         info: 'Некорректні данні',
         link: '/purchase-list',
       },
     })
   }
 
-  if (!firstname || !lastname || !email || !phone) {
+  if ((!firstname, !lastname, !email, !phone)) {
     return res.render('alert', {
       style: 'alert',
-      // component: ['button', 'heading'],
+      component: ['button', 'heading'],
 
       data: {
-        message: "Заповніть обов'язкові поля",
+        title: "Заповніть обов'язкові поля",
         info: 'Некорректні данні',
         link: '/purchase-list',
       },
@@ -449,7 +458,7 @@ router.post('/purchase-submit', function (req, res) {
       promocode,
       bonus,
       comment,
-      // delivery,
+      delivery,
     },
     product,
   )
@@ -469,6 +478,35 @@ router.post('/purchase-submit', function (req, res) {
   })
   // ↑↑ сюди вводимо JSON дані
 })
+// ================================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/purchase-list', function (req, res) {
+  // res.render генерує нам HTML сторінку
+  // console.log(bonus)
+
+  const list = Purchase.getList()
+  console.log('purchase-list:', list)
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-list', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-list',
+    component: ['heading', 'purchase-item', 'divider'],
+    title: 'Мої замовлення',
+
+    data: {
+      purchases: {
+        list,
+      },
+      // bonus, // Отримати bonusAmount з параметрів URL
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
 // ================================================================
 
 // Підключаємо роутер до бек-енду
