@@ -87,6 +87,36 @@ Product.add(
   10,
 )
 
+Product.add(
+  'https://picsum.photos/200/300',
+  'Компютер Artline Gaming (X43v31) AMD Ryzen 5 3600/',
+  'AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС',
+  [
+    { id: 1, text: 'Готовий до відправки' },
+    { id: 2, text: 'Топ продажів' },
+  ],
+  27000,
+  10,
+)
+
+Product.add(
+  'https://picsum.photos/200/300',
+  'Компютер COBRA Advanced (I11F.8.H1S2.15T.13356) Intel',
+  'Intel Core i3-10100F (3.6 - 4.3 ГГц) / RAM 8 ГБ / HDD 1 ТБ + SSD 240 ГБ / GeForce GTX 1050 Ti, 4 ГБ / без ОД / LAN / Linux',
+  [{ id: 2, text: 'Топ продажів' }],
+  20000,
+  10,
+)
+
+Product.add(
+  'https://picsum.photos/200/300',
+  'Компютер ARTLINE Gaming by ASUS TUF v119 (TUFv119)',
+  'Intel Core i9-13900KF (3.0 - 5.8 ГГц) / RAM 64 ГБ / SSD 2 ТБ (2 x 1 ТБ) / nVidia GeForce RTX 4070 Ti, 12 ГБ / без ОД / LAN / Wi-Fi / Bluetooth / без ОС',
+  [{ id: 1, text: 'Готовий до відправки' }],
+  40000,
+  10,
+)
+
 class Purchase {
   static DELIVERY_PRICE = 150
   static #BONUS_FACTOR = 0.1
@@ -212,6 +242,8 @@ class Promocode {
   }
 }
 
+// ================================================================
+
 Promocode.add('SUMMER2023', 0.9)
 Promocode.add('DISCOUNT50', 0.5)
 Promocode.add('SALE25', 0.75)
@@ -221,16 +253,24 @@ Promocode.add('SALE25', 0.75)
 // router.get Створює нам один ентпоїнт
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
-router.get('/', function (req, res) {
+router.get('/purchase-index', function (req, res) {
   // res.render генерує нам HTML сторінку
 
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('purchase-index', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'purchase-index',
+    component: ['heading', 'purchase-product', 'button'],
+
+    title: 'Товари',
+    description: `Комп'ютери та ноутбуки/Комп'ютери, неттопи, моноблоки`,
 
     data: {
-      list: Product.getList(),
+      title: 'Товари',
+      subtitle:
+        "Комп'ютери та ноутбуки/Комп'ютери, неттопи, моноблоки",
+
+      products: Product.getList(),
     },
   })
   // ↑↑ сюди вводимо JSON дані
@@ -242,12 +282,26 @@ router.get('/', function (req, res) {
 // ↙️ тут вводимо шлях (PATH) до сторінки
 router.get('/purchase-product', function (req, res) {
   const id = Number(req.query.id)
+  // console.log('list:', Product.getRandomList(id))
+  // console.log('product:', Product.getById(id))
+
   // res.render генерує нам HTML сторінку
 
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('purchase-product', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'purchase-product',
+
+    component: [
+      'divider',
+      'field',
+      'button',
+      'heading',
+      'purchase-product',
+    ],
+
+    title: 'Інші товари',
+    description: "Комп'ютери та ноутбуки",
 
     data: {
       list: Product.getRandomList(id),
@@ -270,6 +324,8 @@ router.post('/purchase-create', function (req, res) {
   if (amount < 1) {
     return res.render('alert', {
       style: 'alert',
+      component: ['button', 'heading'],
+
       data: {
         title: 'Помилка',
         info: 'Некоректна кількість товару',
@@ -283,6 +339,8 @@ router.post('/purchase-create', function (req, res) {
   if (product.amount < 1) {
     return res.render('alert', {
       style: 'alert',
+      component: ['button', 'heading'],
+
       data: {
         title: 'Помилка',
         info: 'Такої кількості товару нема в наявності',
@@ -300,25 +358,29 @@ router.post('/purchase-create', function (req, res) {
   res.render('purchase-create', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'purchase-create',
+    component: ['divider', 'field', 'button', 'heading'],
 
     data: {
+      title: 'Ваше замовлення',
+      subtitle: 'Оформлення замовлення',
+
       id: product.id,
 
       cart: [
         {
           text: `${product.title} (${amount} шт)`,
-          price: productPrice,
+          price: product.price,
         },
         {
-          text: `Доставка`,
+          text: `Вартість доставки`,
           price: Purchase.DELIVERY_PRICE,
         },
       ],
       totalPrice,
       productPrice,
-      deliveryPrice: Purchase.DELIVERY_PRICE,
       amount,
       bonus,
+      deliveryPrice: Purchase.DELIVERY_PRICE,
     },
   })
   // ↑↑ сюди вводимо JSON дані
@@ -502,6 +564,169 @@ router.get('/purchase-list', function (req, res) {
         list,
       },
       // bonus, // Отримати bonusAmount з параметрів URL
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/purchase-info', function (req, res) {
+  // res.render генерує нам HTML сторінку
+  const id = Number(req.query.id)
+  const purchase = Purchase.getById(id)
+  const bonus = Purchase.calcBonusAmount(
+    purchase.totalPrice,
+  )
+
+  console.log('purchase:', purchase, bonus)
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-info', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-info',
+    component: ['heading', 'divider', 'button'],
+
+    title: 'Інформація про замовлення',
+
+    data: {
+      id: purchase.id,
+      firstname: purchase.firstname,
+      lastname: purchase.lastname,
+      phone: purchase.phone,
+      email: purchase.email,
+      delivery: purchase.delivery,
+      product: purchase.product.title,
+      productPrice: purchase.productPrice,
+      deliveryPrice: purchase.deliveryPrice,
+      totalPrice: purchase.totalPrice,
+      bonus: bonus,
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
+
+router.get('/purchase-edit', function (req, res) {
+  const id = Number(req.query.id)
+
+  const purchase = Purchase.getById(id)
+
+  if (!purchase) {
+    // Якщо товар з таким id не знайдено, відображаємо повідомлення про помилку
+    res.render('alert', {
+      style: 'alert',
+      component: ['button', 'heading'],
+
+      isError: true,
+      title: 'Помилка',
+      info: 'Замовлення з таким ID не знайдено',
+    })
+  } else {
+    // Якщо товар знайдено, передаємо його дані у шаблон product-edit
+    res.render('purchase-edit', {
+      style: 'purchase-edit',
+      component: ['heading', 'divider', 'field', 'button'],
+
+      title: 'Зміна данних замовлення',
+
+      data: {
+        id: purchase.id,
+        firstname: purchase.firstname,
+        lastname: purchase.lastname,
+        phone: purchase.phone,
+        email: purchase.email,
+        delivery: purchase.delivery,
+      },
+    })
+  }
+})
+
+// ================================================================
+
+router.post('/purchase-edit', function (req, res) {
+  const id = Number(req.query.id)
+  let { firstname, lastname, phone, email, delivery } =
+    req.body
+
+  const purchase = Purchase.getById(id)
+
+  console.log(purchase)
+
+  if (purchase) {
+    const newPurchase = Purchase.updateById(id, {
+      firstname,
+      lastname,
+      phone,
+      email,
+      delivery,
+    })
+
+    console.log(newPurchase)
+
+    // Якщо оновлення вдалося, відображаємо повідомлення про успіх
+    if (newPurchase) {
+      res.render('alert', {
+        style: 'alert',
+        component: ['button', 'heading'],
+
+        data: {
+          link: '/purchase-list',
+          title: 'Успішне виконання дії',
+          info: 'Товар успішно оновлено',
+        },
+      })
+    } else {
+      // Якщо оновлення не вдалося (наприклад, товару з таким id не існує),
+      // відображаємо повідомлення про помилку
+      res.render('alert', {
+        style: 'alert',
+        component: ['button', 'heading'],
+
+        data: {
+          link: '/purchase-list',
+          title: 'Помилка',
+          info: 'Не вдалося оновити товар',
+        },
+      })
+    }
+  } else {
+    // Якщо оновлення не вдалося (наприклад, товару з таким id не існує),
+    // відображаємо повідомлення про помилку
+    res.render('alert', {
+      style: 'alert',
+      component: ['button', 'heading'],
+
+      data: {
+        link: '/purchase-list',
+        title: 'Помилка',
+        info: 'Не вдалося оновити товар',
+      },
+    })
+  }
+})
+
+// ================================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/alert', function (req, res) {
+  // res.render генерує нам HTML сторінку
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('alert', {
+    style: 'alert',
+    component: ['button', 'heading'],
+
+    data: {
+      link: '/test',
+      title: 'Успішне виконання дії',
+      info: 'Товар успішно оновлено',
     },
   })
   // ↑↑ сюди вводимо JSON дані
